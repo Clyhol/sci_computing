@@ -15,13 +15,13 @@ def mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, thresh
     re = np.linspace(re_min, re_max, p_re) # real part
     im = np.linspace(im_min, im_max, p_im) # imaginary part
     
-    mandelbrot_set = np.zeros((p_re, p_im)) # create an array to store the mandelbrot set
+    mset = np.zeros((p_re, p_im)) # create an array to store the mandelbrot set
     
     for i in tqdm(range(p_im), desc="Calculating Mandelbrot set"): # rows (y-axis)
         for j in range(p_re): # columns (x-axis)
             c = complex(re[j], im[i]) # create a starting point
-            mandelbrot_set[i, j] = compute_mandelbrot(c, max_iters, threshold) # store the number of iterations to diverge
-    return mandelbrot_set
+            mset[i, j] = compute_mandelbrot(c, max_iters, threshold) # store the number of iterations to diverge
+    return mset
 
 
 if __name__ == "__main__":
@@ -32,12 +32,13 @@ if __name__ == "__main__":
     max_iters = 100 # 1000 iters, 14:32 runtime. 100 iters, 2:32 runtime
     threshold = 2
     
-    mandelbrot_set = mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold)
+    mset = mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold)
     
-    plt.imshow(mandelbrot_set, extent=[re_min, re_max, im_min, im_max])
+    plt.imshow(mset, extent=[re_min, re_max, im_min, im_max])
     plt.set_cmap('hot')
     plt.colorbar()
     plt.show()
+    plt.imsave(f"{max_iters}_iters.pdf", mset)
     
     
             
