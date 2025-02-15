@@ -2,12 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
-def mandelbrot(c, max_iters, threshold):
+def compute_mandelbrot(c, max_iters, threshold):
     z = 0
     for n in range(max_iters):
         if abs(z) > threshold:
             return n
-        z = z**2 + c
+        else:
+            z = z**2 + c
     return  max_iters # return max_iters if the point doesn't diverge after max_iters iterations
 
 def mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold):
@@ -18,8 +19,8 @@ def mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, thresh
     
     for i in tqdm(range(p_im), desc="Calculating Mandelbrot set"): # rows (y-axis)
         for j in range(p_re): # columns (x-axis)
-            c = re[j] + 1j*im[i] # create a starting point
-            mandelbrot_set[i, j] = mandelbrot(c, max_iters, threshold) # store the number of iterations to diverge
+            c = complex(re[j], im[i]) # create a starting point
+            mandelbrot_set[i, j] = compute_mandelbrot(c, max_iters, threshold) # store the number of iterations to diverge
     return mandelbrot_set
 
 
@@ -28,7 +29,7 @@ if __name__ == "__main__":
     p_im = 5000
     re_min, re_max = -2.0, 1.0
     im_min, im_max = -1.5, 1.5
-    max_iters = 100
+    max_iters = 100 # 1000 iters, 14:32 runtime. 100 iters, 2:32 runtime
     threshold = 2
     
     mandelbrot_set = mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold)
