@@ -19,7 +19,7 @@ def mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, thresh
     
     for i in tqdm(range(p_im), desc="Calculating Mandelbrot set"): # rows (y-axis)
         for j in range(p_re): # columns (x-axis)
-            c = complex(re[j], im[i]) # create a starting point
+            c = re[j] +1j * im[i] # create a starting point
             mset[i, j] = compute_mandelbrot(c, max_iters, threshold) # store the number of iterations to diverge
     return mset
 
