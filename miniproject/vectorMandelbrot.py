@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+import os
 
 def vector_mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold):
     re = np.linspace(re_min, re_max, p_re) # real part
@@ -21,8 +22,10 @@ if __name__ == "__main__":
     p_im = 5000
     re_min, re_max = -2.0, 1.0
     im_min, im_max = -1.5, 1.5
-    max_iters = 100 # 1000 iters, 14:32 runtime. 100 iters, 2:32 runtime
+    max_iters = 100 # 100 iterations runtime: 19s
     threshold = 2
+    outputdir = "miniproject/output"
+    os.makedirs(outputdir, exist_ok=True)
     
     mset = vector_mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold)
     
@@ -30,7 +33,7 @@ if __name__ == "__main__":
     plt.set_cmap('hot')
     plt.colorbar()
     plt.show()
-    plt.imsave(f"{max_iters}_iters.pdf", mset)
+    plt.imsave(os.path.join(outputdir, f"{os.path.basename(__file__).split(".")[0]}_{max_iters}_iters.pdf"), mset)
     
     
             

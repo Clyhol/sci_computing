@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+import os
 
 def compute_mandelbrot(c, max_iters, threshold):
     z = 0
@@ -31,6 +32,8 @@ if __name__ == "__main__":
     im_min, im_max = -1.5, 1.5
     max_iters = 100 # 1000 iters, 14:32 runtime. 100 iters, 2:32 runtime
     threshold = 2
+    outputdir = "miniproject/output"
+    os.mkdir(outputdir, exist_ok=True)
     
     mset = mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold)
     
@@ -38,7 +41,7 @@ if __name__ == "__main__":
     plt.set_cmap('hot')
     plt.colorbar()
     plt.show()
-    plt.imsave(f"{max_iters}_iters.pdf", mset)
+    plt.imsave(os.path.join(outputdir, f"{os.path.basename(__file__).split(".")[0]}_{max_iters}_iters.pdf"), mset)
     
     
             
