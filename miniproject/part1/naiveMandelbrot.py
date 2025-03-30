@@ -4,8 +4,10 @@ from tqdm import tqdm
 import os
 from numba import jit
 from timeit import default_timer as timer
+import line_profiler
 
 # fastmath uses less accurate but faster operations
+@line_profiler.profile
 @jit(nopython = True, fastmath = True)
 def compute_mandelbrot(c, max_iters, threshold):
     z = 0
@@ -16,6 +18,7 @@ def compute_mandelbrot(c, max_iters, threshold):
             z = z**2 + c
     return  max_iters # return max_iters if the point doesn't diverge after max_iters iterations
 
+@line_profiler.profile
 @jit(nopython = True, fastmath = True)
 def mandelbrot_set(re_min, re_max, im_min, im_max, p_re, p_im, max_iters, threshold):
     re = np.linspace(re_min, re_max, p_re)
